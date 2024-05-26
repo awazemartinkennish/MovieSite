@@ -1,5 +1,5 @@
-using AspireApp1.Web;
-using AspireApp1.Web.Components;
+using MovieSite.Web;
+using MovieSite.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 

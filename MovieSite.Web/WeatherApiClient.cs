@@ -1,4 +1,4 @@
-namespace AspireApp1.Web;
+namespace MovieSite.Web;
 
 public class WeatherApiClient(HttpClient httpClient)
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace AspireApp1.ApiService.Database.Models
+namespace MovieSite.ApiService.Database.Models
 {
     public class Screen
     {

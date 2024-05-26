@@ -2,15 +2,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireApp1.AppHost", "AspireApp1.AppHost\AspireApp1.AppHost.csproj", "{6A84C0A1-74CB-4867-B6DA-E7972830C31C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.AppHost", "MovieSite.AppHost\MovieSite.AppHost.csproj", "{6A84C0A1-74CB-4867-B6DA-E7972830C31C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApp1.ServiceDefaults", "AspireApp1.ServiceDefaults\AspireApp1.ServiceDefaults.csproj", "{86318843-726D-41ED-BF3C-108998286BE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.ServiceDefaults", "MovieSite.ServiceDefaults\MovieSite.ServiceDefaults.csproj", "{86318843-726D-41ED-BF3C-108998286BE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApp1.ApiService", "AspireApp1.ApiService\AspireApp1.ApiService.csproj", "{4A0491FC-8286-4B06-B6F2-BBEBA531E957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.ApiService", "MovieSite.ApiService\MovieSite.ApiService.csproj", "{4A0491FC-8286-4B06-B6F2-BBEBA531E957}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApp1.Web", "AspireApp1.Web\AspireApp1.Web.csproj", "{7A8B4E09-AB6F-4D02-AA6C-F8C6B8B958AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.Web", "MovieSite.Web\MovieSite.Web.csproj", "{7A8B4E09-AB6F-4D02-AA6C-F8C6B8B958AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspireApp1.Tests", "AspireApp1.Tests\AspireApp1.Tests.csproj", "{82392EC1-E839-4F7F-A384-3A1D7FE0AF14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.Tests", "MovieSite.Tests\MovieSite.Tests.csproj", "{82392EC1-E839-4F7F-A384-3A1D7FE0AF14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieSite.Database", "MovieSite.Database\MovieSite.Database.csproj", "{D8142C56-6739-47DA-8439-BB83DE4244CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{82392EC1-E839-4F7F-A384-3A1D7FE0AF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82392EC1-E839-4F7F-A384-3A1D7FE0AF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82392EC1-E839-4F7F-A384-3A1D7FE0AF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8142C56-6739-47DA-8439-BB83DE4244CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8142C56-6739-47DA-8439-BB83DE4244CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8142C56-6739-47DA-8439-BB83DE4244CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8142C56-6739-47DA-8439-BB83DE4244CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

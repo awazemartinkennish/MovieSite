@@ -1,3 +1,5 @@
+using MovieSite.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire components.
@@ -5,7 +7,7 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
-builder.AddNpgsqlDbContext<YourDbContext>("postgresdb");
+builder.AddNpgsqlDbContext<MovieDbContext>("postgresdb");
 
 var app = builder.Build();
 

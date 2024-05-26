@@ -1,7 +1,7 @@
-﻿using AspireApp1.ApiService.Database.Models;
+﻿using MovieSite.ApiService.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspireApp1.ApiService.Database
+namespace MovieSite.Database
 {
     public class MovieDbContext : DbContext
     {
