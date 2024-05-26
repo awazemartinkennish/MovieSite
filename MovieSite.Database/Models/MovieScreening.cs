@@ -9,7 +9,7 @@ namespace MovieSite.Database.Models
         public int ScreenId { get; set; }
 
         [Required]
-        public DateTime ScreeningTime { get; set; }
+        public DateTimeOffset ScreeningTime { get; set; }
 
         [Required]
         [Range(0, 1000)]

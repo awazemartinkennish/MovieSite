@@ -8,6 +8,7 @@ using OpenTelemetry.Trace;
 
 using MovieSite.Database;
 using MovieSite.Database.Models;
+using MovieSite.MigrationService.SeedData;
 
 namespace MovieSite.MigrationService;
 
@@ -70,20 +71,18 @@ public class Worker(
 
     private static async Task SeedDataAsync(MovieDbContext dbContext, CancellationToken cancellationToken)
     {
-        // TODO: write some seed data here, maybe try and fake a bunch with the dotnet equivalent of Faker?
-        //SupportTicket firstTicket = new()
-        //{
-        //    Title = "Test Ticket",
-        //    Description = "Default ticket, please ignore!",
-        //    Completed = true
-        //};
+        DatabaseSeeder seeder = new();
+        var (movies, screens, screenings, tickets) = seeder.GenerateData();
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
             // Seed the database
             await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-            //await dbContext.Tickets.AddAsync(firstTicket, cancellationToken);
+            await dbContext.Movies.AddRangeAsync(movies, cancellationToken);
+            await dbContext.Screens.AddRangeAsync(screens, cancellationToken);
+            await dbContext.MovieScreenings.AddRangeAsync(screenings, cancellationToken);
+            await dbContext.Tickets.AddRangeAsync(tickets, cancellationToken);  
             await dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
         });
