@@ -9,7 +9,7 @@ using OpenTelemetry.Trace;
 using MovieSite.Database;
 using MovieSite.Database.Models;
 
-namespace SupportTicketApi.MigrationService;
+namespace MovieSite.MigrationService;
 
 public class Worker(
     IServiceProvider serviceProvider,

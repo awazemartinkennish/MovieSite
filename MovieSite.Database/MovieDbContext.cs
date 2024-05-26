@@ -1,4 +1,4 @@
-﻿using MovieSite.ApiService.Database.Models;
+﻿using MovieSite.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MovieSite.Database
