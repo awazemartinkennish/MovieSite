@@ -18,4 +18,7 @@ builder.AddProject<Projects.MovieSite_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithReference(apiService);
 
+builder.AddProject<Projects.MovieSite_MigrationService>("migrations")
+       .WithReference(movieDb);
+
 builder.Build().Run();

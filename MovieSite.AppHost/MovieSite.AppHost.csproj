@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MovieSite.ApiService\MovieSite.ApiService.csproj" />
     <ProjectReference Include="..\MovieSite.Web\MovieSite.Web.csproj" />
+    <ProjectReference Include="..\MovieSite.MigrationService\MovieSite.MigrationService.csproj" />
   </ItemGroup>
 
   <ItemGroup>
