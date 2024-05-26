@@ -22,7 +22,7 @@ namespace MovieSite.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Movie", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace MovieSite.Database.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.MovieScreening", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.MovieScreening", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace MovieSite.Database.Migrations
                     b.Property<int>("ScreenId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("ScreeningTime")
+                    b.Property<DateTimeOffset>("ScreeningTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("TicketPrice")
@@ -83,7 +83,7 @@ namespace MovieSite.Database.Migrations
                     b.ToTable("MovieScreening", (string)null);
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Screen", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Screen", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +104,7 @@ namespace MovieSite.Database.Migrations
                     b.ToTable("Screens");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Ticket", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,9 +114,6 @@ namespace MovieSite.Database.Migrations
 
                     b.Property<int>("MovieScreeningId")
                         .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
 
                     b.Property<int>("SeatNumber")
                         .HasColumnType("integer");
@@ -128,15 +125,15 @@ namespace MovieSite.Database.Migrations
                     b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.MovieScreening", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.MovieScreening", b =>
                 {
-                    b.HasOne("MovieSite.ApiService.Database.Models.Movie", "Movie")
+                    b.HasOne("MovieSite.Database.Models.Movie", "Movie")
                         .WithMany("Screenings")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieSite.ApiService.Database.Models.Screen", "Screen")
+                    b.HasOne("MovieSite.Database.Models.Screen", "Screen")
                         .WithMany("Screenings")
                         .HasForeignKey("ScreenId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,9 +144,9 @@ namespace MovieSite.Database.Migrations
                     b.Navigation("Screen");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Ticket", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Ticket", b =>
                 {
-                    b.HasOne("MovieSite.ApiService.Database.Models.MovieScreening", "MovieScreening")
+                    b.HasOne("MovieSite.Database.Models.MovieScreening", "MovieScreening")
                         .WithMany("Tickets")
                         .HasForeignKey("MovieScreeningId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -158,17 +155,17 @@ namespace MovieSite.Database.Migrations
                     b.Navigation("MovieScreening");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Movie", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Movie", b =>
                 {
                     b.Navigation("Screenings");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.MovieScreening", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.MovieScreening", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("MovieSite.ApiService.Database.Models.Screen", b =>
+            modelBuilder.Entity("MovieSite.Database.Models.Screen", b =>
                 {
                     b.Navigation("Screenings");
                 });

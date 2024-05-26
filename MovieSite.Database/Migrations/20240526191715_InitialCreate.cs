@@ -51,7 +51,7 @@ namespace MovieSite.Database.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     MovieId = table.Column<int>(type: "integer", nullable: false),
                     ScreenId = table.Column<int>(type: "integer", nullable: false),
-                    ScreeningTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ScreeningTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     TicketPrice = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
@@ -78,8 +78,7 @@ namespace MovieSite.Database.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     MovieScreeningId = table.Column<int>(type: "integer", nullable: false),
-                    SeatNumber = table.Column<int>(type: "integer", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    SeatNumber = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
