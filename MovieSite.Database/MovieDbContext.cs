@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MovieSite.Database
 {
-    public class MovieDbContext : DbContext
+    public class MovieDbContext(DbContextOptions<MovieDbContext> options) : DbContext(options)
     {
-        public MovieDbContext(DbContextOptions<MovieDbContext> options) : base(options)
-        {
-        }
-
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Screen> Screens { get; set; }
         public DbSet<MovieScreening> MovieScreenings { get; set; }

@@ -11,8 +11,8 @@ namespace MovieSite.MigrationService.SeedData
             Randomizer.Seed = new Random(20240526);
         }
 
-        private readonly List<string> movieTitles = new()
-        {
+        private readonly List<string> _movieTitles =
+        [
             "The Godfather",
             "The Shawshank Redemption",
             "Schindler's List",
@@ -111,13 +111,13 @@ namespace MovieSite.MigrationService.SeedData
             "Little Women",
             "The Irishman",
             "Parasite"
-        };
+        ];
 
         public (List<Movie> movies, List<Screen> screens, List<MovieScreening> screenings, List<Ticket> tickets) GenerateData()
         {
             var movies = new Faker<Movie>()
                 .RuleFor(m => m.Id, f => 0)
-                .RuleFor(m => m.Title, f => f.PickRandom(movieTitles))
+                .RuleFor(m => m.Title, f => f.PickRandom(_movieTitles))
                 .RuleFor(m => m.Genre, f => f.PickRandom("Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Adventure"))
                 .RuleFor(m => m.ReleaseDate, f => f.Date.BetweenDateOnly(
                     DateOnly.FromDateTime(DateTime.Now.AddMonths(-3)),

@@ -19,8 +19,12 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
     [HttpGet]
     public async Task<List<GetMovieView>> Get()
     {
-        var dbModels = await _db.Movies.Include(m => m.Screenings).ThenInclude(s => s.Screen).ToListAsync();
-
+        _logger.LogDebug("Fetching movies from database");
+        List<Movie> dbModels = await _db.Movies.Include(m => m.Screenings!)
+                                               .ThenInclude(s => s.Screen)
+                                               .ToListAsync();
+        _logger.LogDebug("Fetched {Count} movies", dbModels.Count);
+        
         return dbModels.Select(m => new GetMovieView()
         {
             Id = m.Id,
@@ -34,33 +38,39 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
                 ScreeningId = s.Id,
                 Location = s.Screen!.Name,
                 ScreeningTime = s.ScreeningTime
-            }).ToList() ?? new()
+            }).ToList() ?? []
         }).ToList();
     }
 
     // GET api/<MoviesController>/5
     [HttpGet("{id}")]
-    public async Task<GetMovieView> Get(int id)
+    public async Task<ActionResult<GetMovieView>> Get(int id)
     {
-        Movie dbModel = await _db.Movies.Where(m => m.Id == id)
-            .Include(m => m.Screenings)
-            .ThenInclude(s => s.Screen)
-            .FirstOrDefaultAsync();
+        _logger.LogDebug("Fetching movie with id {Id} from database", id);
+        Movie? dbModel = await _db.Movies!.Where(m => m.Id == id)
+                                         .Include(m => m.Screenings!)
+                                         .ThenInclude(s => s.Screen!)
+                                         .FirstOrDefaultAsync();
+        _logger.LogDebug("Fetched {count} movies", dbModel == null ? 0 : 0);
 
-        return new GetMovieView()
+        return dbModel switch
         {
-            Id = dbModel.Id,
-            Title = dbModel.Title,
-            Genre = dbModel.Genre,
-            ReleaseDate = dbModel.ReleaseDate,
-            ReviewScore = dbModel.ReviewScore,
-            BoardRatingInternal = dbModel.BoardRating,
-            Screenings = dbModel.Screenings?.Select(s => new GetMovieView.ScreeningView()
+            null => NotFound(),
+            _ => new GetMovieView()
             {
-                ScreeningId = s.Id,
-                Location = s.Screen!.Name,
-                ScreeningTime = s.ScreeningTime
-            }).ToList() ?? new()
+                Id = dbModel.Id,
+                Title = dbModel.Title,
+                Genre = dbModel.Genre,
+                ReleaseDate = dbModel.ReleaseDate,
+                ReviewScore = dbModel.ReviewScore,
+                BoardRatingInternal = dbModel.BoardRating,
+                Screenings = dbModel.Screenings?.Select(s => new GetMovieView.ScreeningView()
+                {
+                    ScreeningId = s.Id,
+                    Location = s.Screen!.Name,
+                    ScreeningTime = s.ScreeningTime
+                }).ToList() ?? []
+            }
         };
     }
 
@@ -70,6 +80,7 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
     {
         if (!ModelState.IsValid)
         {
+            _logger.LogInformation("Invalid input model {@ValidationState}", ModelState.ValidationState);
             return BadRequest(ModelState);
         }
 
@@ -92,8 +103,10 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
             }
         };
 
+        _logger.LogDebug("Adding movie {@Movie}", movie);
         await _db.Movies.AddAsync(movie);
-        int rowsUpdate = await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync();
+        _logger.LogDebug("Added movie with id {Id}", movie.Id);
 
         return Created(new Uri($"/Movies/{movie.Id}", UriKind.Relative), movie.Id);
     }

@@ -5,8 +5,8 @@ namespace MovieSite.ApiService.Movies
     public record GetMovieView
     {
         public int Id { get; init; }
-        public string Title { get; init; }
-        public string Genre { get; init; }
+        public required string Title { get; init; }
+        public required string Genre { get; init; }
         public DateOnly ReleaseDate { get; init; }
         public double ReviewScore { get; init; }
         public Movie.Rating BoardRatingInternal { private get; init; }
@@ -21,12 +21,12 @@ namespace MovieSite.ApiService.Movies
             _ => ""
         };
 
-        public List<ScreeningView> Screenings { get; init; }
+        public required List<ScreeningView> Screenings { get; init; }
 
         public record ScreeningView
         {
             public int ScreeningId { get; init; }
-            public string Location { get; init; }
+            public required string Location { get; init; }
             public DateTimeOffset ScreeningTime { get; init; }
         }
     }

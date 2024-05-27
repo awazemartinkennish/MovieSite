@@ -9,10 +9,10 @@ namespace MovieSite.Database.Models
 
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public required string Title { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Genre { get; set; }
+        public required string Genre { get; set; }
         [Required]
         public DateOnly ReleaseDate { get; set; }
         [Required]

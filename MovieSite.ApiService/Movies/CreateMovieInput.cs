@@ -6,11 +6,11 @@ namespace MovieSite.ApiService.Movies
     {
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string Genre { get; set; }
+        public required string Genre { get; set; }
 
         [Required]
         public DateOnly ReleaseDate { get; set; }
@@ -21,7 +21,7 @@ namespace MovieSite.ApiService.Movies
 
         [Required]
         [AllowedValues("UA", "U", "PG", "12A", "15", "18")]
-        public string BoardRating { get; set; }
+        public required string BoardRating { get; set; }
 
     }
 }
