@@ -16,6 +16,7 @@ namespace MovieSite.Database.Models
         [Required]
         public DateOnly ReleaseDate { get; set; }
         [Required]
+        [Range(0, 5)]
         public double ReviewScore { get; set; }
         [Required]
         public Rating BoardRating { get; set; }

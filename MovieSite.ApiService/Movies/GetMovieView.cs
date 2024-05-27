@@ -1,6 +1,6 @@
 ﻿using static MovieSite.Database.Models.Movie;
 
-namespace MovieSite.ApiService.Movie
+namespace MovieSite.ApiService.Movies
 {
     public record GetMovieView
     {
