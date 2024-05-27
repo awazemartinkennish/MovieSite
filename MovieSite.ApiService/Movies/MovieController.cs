@@ -27,22 +27,41 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
             Genre = m.Genre,
             ReleaseDate = m.ReleaseDate,
             ReviewScore = m.ReviewScore,
-            BoardRating = m.BoardRating,
-            Screenings = m.Screenings.Select(s => new GetMovieView.ScreeningView()
+            BoardRatingInternal = m.BoardRating,
+            Screenings = m.Screenings?.Select(s => new GetMovieView.ScreeningView()
             {
                 ScreeningId = s.Id,
                 Location = s.Screen!.Name,
                 ScreeningTime = s.ScreeningTime
-            }).ToList()
+            }).ToList() ?? new()
         }).ToList();
     }
 
-    //// GET api/<MoviesController>/5
-    //[HttpGet("{id}")]
-    //public string Get(int id)
-    //{
-    //    return "value";
-    //}
+    // GET api/<MoviesController>/5
+    [HttpGet("{id}")]
+    public async Task<GetMovieView> Get(int id)
+    {
+        Movie dbModel = await _db.Movies.Where(m => m.Id == id)
+            .Include(m => m.Screenings)
+            .ThenInclude(s => s.Screen)
+            .FirstOrDefaultAsync();
+
+        return new GetMovieView()
+        {
+            Id = dbModel.Id,
+            Title = dbModel.Title,
+            Genre = dbModel.Genre,
+            ReleaseDate = dbModel.ReleaseDate,
+            ReviewScore = dbModel.ReviewScore,
+            BoardRatingInternal = dbModel.BoardRating,
+            Screenings = dbModel.Screenings?.Select(s => new GetMovieView.ScreeningView()
+            {
+                ScreeningId = s.Id,
+                Location = s.Screen!.Name,
+                ScreeningTime = s.ScreeningTime
+            }).ToList() ?? new()
+        };
+    }
 
     // POST api/<MoviesController>
     [HttpPost]
@@ -73,9 +92,9 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
         };
 
         await _db.Movies.AddAsync(movie);
-        _db.SaveChanges();
+        int rowsUpdate = await _db.SaveChangesAsync();
 
-        return Created();
+        return Created(new Uri($"/Movies/{movie.Id}", UriKind.Relative), movie.Id);
     }
 
     //// PUT api/<MoviesController>/5

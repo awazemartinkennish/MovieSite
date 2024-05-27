@@ -32,6 +32,6 @@ namespace MovieSite.Database.Models
             Eighteen = 5
         }
 
-        public ICollection<MovieScreening> Screenings { get; set; }
+        public ICollection<MovieScreening>? Screenings { get; set; }
     }
 }
