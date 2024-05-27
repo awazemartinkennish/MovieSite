@@ -122,7 +122,7 @@ namespace MovieSite.MigrationService.SeedData
                 .RuleFor(m => m.ReleaseDate, f => f.Date.BetweenDateOnly(
                     DateOnly.FromDateTime(DateTime.Now.AddMonths(-3)),
                     DateOnly.FromDateTime(DateTime.Now)))
-                .RuleFor(m => m.ReviewScore, f => f.Random.Double(1, 5))
+                .RuleFor(m => m.ReviewScore, f => Math.Round(f.Random.Double(1, 5), 2))
                 .RuleFor(m => m.BoardRating, f => f.PickRandom<Movie.Rating>())
                 .Generate(10);
 
@@ -134,7 +134,7 @@ namespace MovieSite.MigrationService.SeedData
                 .Generate(10);
 
             int screeningScreenIndex = 0;
-            DateTimeOffset screeningTime = DateTimeOffset.UtcNow.AddHours(8).ToOffset(TimeSpan.Zero);
+            DateTimeOffset screeningTime = new DateTimeOffset(DateTime.UtcNow.Date.AddHours(8)).ToOffset(TimeSpan.Zero);
             var screenings = new Faker<MovieScreening>()
                 .RuleFor(s => s.Id, f => 0)
                 .RuleFor(s => s.Movie, f => f.PickRandom(movies))
