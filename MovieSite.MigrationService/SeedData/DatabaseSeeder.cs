@@ -1,4 +1,5 @@
 ﻿using Bogus;
+
 using MovieSite.Database.Models;
 
 namespace MovieSite.MigrationService.SeedData

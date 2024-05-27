@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using MovieSite.Database;
 using MovieSite.Database.Models;
 
@@ -18,7 +19,7 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
     [HttpGet]
     public async Task<List<GetMovieView>> Get()
     {
-        var dbModels = await _db.Movies.Include(m => m.Screenings).ThenInclude(s=> s.Screen).ToListAsync();
+        var dbModels = await _db.Movies.Include(m => m.Screenings).ThenInclude(s => s.Screen).ToListAsync();
 
         return dbModels.Select(m => new GetMovieView()
         {

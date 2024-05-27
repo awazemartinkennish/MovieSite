@@ -4,7 +4,6 @@ namespace MovieSite.ApiService.Movies
 {
     public record CreateMovieInput
     {
-
         [Required]
         [MaxLength(200)]
         public string Title { get; set; }

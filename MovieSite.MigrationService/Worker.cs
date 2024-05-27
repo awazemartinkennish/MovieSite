@@ -74,7 +74,7 @@ public class Worker(
     {
         DatabaseSeeder seeder = new();
         var (movies, screens, screenings, tickets) = seeder.GenerateData();
-        logger.LogInformation($"Data generated { JsonSerializer.Serialize(new { Movies = movies, Screens = screens, Screenings = screenings, Tickets = tickets })}");
+        logger.LogInformation($"Data generated {JsonSerializer.Serialize(new { Movies = movies, Screens = screens, Screenings = screenings, Tickets = tickets })}");
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>

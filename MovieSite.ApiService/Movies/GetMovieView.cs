@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using static MovieSite.Database.Models.Movie;
+﻿using MovieSite.Database.Models;
 
 namespace MovieSite.ApiService.Movies
 {
@@ -10,15 +9,15 @@ namespace MovieSite.ApiService.Movies
         public string Genre { get; init; }
         public DateOnly ReleaseDate { get; init; }
         public double ReviewScore { get; init; }
-        public Rating BoardRatingInternal { private get; init; }
+        public Movie.Rating BoardRatingInternal { private get; init; }
         public string BoardRating => BoardRatingInternal switch
         {
-            Rating.UA => "UA",
-            Rating.U => "U",
-            Rating.PG => "PG",
-            Rating.TwelveA => "12A",
-            Rating.Fifteen => "15",
-            Rating.Eighteen => "18",
+            Movie.Rating.UA => "UA",
+            Movie.Rating.U => "U",
+            Movie.Rating.PG => "PG",
+            Movie.Rating.TwelveA => "12A",
+            Movie.Rating.Fifteen => "15",
+            Movie.Rating.Eighteen => "18",
             _ => ""
         };
 
