@@ -1,0 +1,4 @@
+@localhostPort = 7335
+
+
+GET https://localhost:{{localhostPort}}/moviescreening
