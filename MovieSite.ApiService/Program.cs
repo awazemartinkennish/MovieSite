@@ -7,7 +7,9 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
 builder.AddNpgsqlDbContext<MovieDbContext>("Movies");
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -15,5 +17,11 @@ var app = builder.Build();
 app.UseExceptionHandler();
 
 app.MapDefaultEndpoints();
+
+app.UseRouting();
+
+//app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
