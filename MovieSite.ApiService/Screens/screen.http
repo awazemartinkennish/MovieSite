@@ -1,0 +1,7 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@localhostPort = 7335
+
+GET https://localhost:{{localhostPort}}/screen
+
+###

@@ -20,24 +20,25 @@ public class ScreenController(MovieDbContext db, ILogger<ScreenController> logge
     public async Task<IEnumerable<GetScreenView>> Get()
     {
         _logger.LogDebug("Fetching screens from database");
-        List<Screen> dbModels = await _db.Screens
+        List<GetScreenView> dbModels = await _db.Screens
             .Include(s => s.Screenings!)
             .ThenInclude(ms => ms.Movie)
-            .ToListAsync();
-        _logger.LogDebug("Fetched {Count} screens", dbModels.Count);
-
-        return dbModels.Select(s => new GetScreenView()
-        {
-            Id = s.Id,
-            Name = s.Name,
-            Capacity = s.Capacity,
-            Screenings = s.Screenings?.Select(ms => new GetScreenView.ScreeningView()
+            .Select(s => new GetScreenView()
             {
-                ScreeningId = ms.Id,
-                MovieTitle = ms.Movie!.Title,
-                ScreeningTime = ms.ScreeningTime
-            }).ToList() ?? []
-        });
+                Id = s.Id,
+                Name = s.Name,
+                Capacity = s.Capacity,
+                Screenings = s.Screenings!.Select(ms => new GetScreenView.ScreeningView()
+                {
+                    ScreeningId = ms.Id,
+                    MovieTitle = ms.Movie!.Title,
+                    ScreeningTime = ms.ScreeningTime
+                }).ToList()
+            }).ToListAsync();
+
+        _logger.LogDebug("Fetched {Count} screens", dbModels.Count);
+        return dbModels;
+        
     }
 
     //// GET api/<MoviesController>/5

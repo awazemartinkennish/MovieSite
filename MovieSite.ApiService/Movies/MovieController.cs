@@ -20,26 +20,26 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
     public async Task<List<GetMovieView>> Get()
     {
         _logger.LogDebug("Fetching movies from database");
-        List<Movie> dbModels = await _db.Movies.Include(m => m.Screenings!)
+        List<GetMovieView> results = await _db.Movies.Include(m => m.Screenings!)
                                                .ThenInclude(s => s.Screen)
-                                               .ToListAsync();
-        _logger.LogDebug("Fetched {Count} movies", dbModels.Count);
-        
-        return dbModels.Select(m => new GetMovieView()
-        {
-            Id = m.Id,
-            Title = m.Title,
-            Genre = m.Genre,
-            ReleaseDate = m.ReleaseDate,
-            ReviewScore = m.ReviewScore,
-            BoardRatingInternal = m.BoardRating,
-            Screenings = m.Screenings?.Select(s => new GetMovieView.ScreeningView()
-            {
-                ScreeningId = s.Id,
-                Location = s.Screen!.Name,
-                ScreeningTime = s.ScreeningTime
-            }).ToList() ?? []
-        }).ToList();
+                                              .Select(m => new GetMovieView()
+                                              {
+                                                  Id = m.Id,
+                                                  Title = m.Title,
+                                                  Genre = m.Genre,
+                                                  ReleaseDate = m.ReleaseDate,
+                                                  ReviewScore = m.ReviewScore,
+                                                  BoardRatingInternal = m.BoardRating,
+                                                  Screenings = m.Screenings!.Select(s => new GetMovieView.ScreeningView()
+                                                  {
+                                                      ScreeningId = s.Id,
+                                                      Location = s.Screen!.Name,
+                                                      ScreeningTime = s.ScreeningTime
+                                                  }).ToList()
+                                              }).ToListAsync();
+        _logger.LogDebug("Fetched {Count} movies", results.Count);
+
+        return results;
     }
 
     // GET api/<MoviesController>/5
@@ -47,30 +47,29 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
     public async Task<ActionResult<GetMovieView>> Get(int id)
     {
         _logger.LogDebug("Fetching movie with id {Id} from database", id);
-        Movie? dbModel = await _db.Movies!.Where(m => m.Id == id)
+        GetMovieView? result = await _db.Movies!.Where(m => m.Id == id)
                                          .Include(m => m.Screenings!)
-                                         .ThenInclude(s => s.Screen!)
-                                         .FirstOrDefaultAsync();
-        _logger.LogDebug("Fetched {count} movies", dbModel == null ? 0 : 0);
+                                         .ThenInclude(s => s.Screen!).Select(m => new GetMovieView()
+                                         {
+                                             Id = m.Id,
+                                             Title = m.Title,
+                                             Genre = m.Genre,
+                                             ReleaseDate = m.ReleaseDate,
+                                             ReviewScore = m.ReviewScore,
+                                             BoardRatingInternal = m.BoardRating,
+                                             Screenings = m.Screenings!.Select(s => new GetMovieView.ScreeningView()
+                                             {
+                                                 ScreeningId = s.Id,
+                                                 Location = s.Screen!.Name,
+                                                 ScreeningTime = s.ScreeningTime
+                                             }).ToList()
+                                         }).FirstOrDefaultAsync();
+        _logger.LogDebug("Fetched {count} movies", result == null ? 0 : 0);
 
-        return dbModel switch
+        return result switch
         {
             null => NotFound(),
-            _ => new GetMovieView()
-            {
-                Id = dbModel.Id,
-                Title = dbModel.Title,
-                Genre = dbModel.Genre,
-                ReleaseDate = dbModel.ReleaseDate,
-                ReviewScore = dbModel.ReviewScore,
-                BoardRatingInternal = dbModel.BoardRating,
-                Screenings = dbModel.Screenings?.Select(s => new GetMovieView.ScreeningView()
-                {
-                    ScreeningId = s.Id,
-                    Location = s.Screen!.Name,
-                    ScreeningTime = s.ScreeningTime
-                }).ToList() ?? []
-            }
+            _ => result
         };
     }
 
