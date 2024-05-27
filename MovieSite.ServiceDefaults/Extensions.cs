@@ -47,20 +47,14 @@ public static class Extensions
         });
 
         builder.Services.AddOpenTelemetry()
-            .WithMetrics(metrics =>
-            {
-                metrics.AddAspNetCoreInstrumentation()
+            .WithMetrics(m => m.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
-            })
-            .WithTracing(tracing =>
-            {
-                tracing.AddAspNetCoreInstrumentation()
+                    .AddRuntimeInstrumentation())
+            .WithTracing(t => t.AddAspNetCoreInstrumentation()
                     // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                     //.AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddNpgsql();
-            });
+                    .AddNpgsql());
 
         builder.AddOpenTelemetryExporters();
 
