@@ -5,7 +5,7 @@ using MovieSite.Database.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace MovieSite.ApiService.Controllers;
+namespace MovieSite.ApiService.Movie;
 
 [Route("[controller]")]
 [ApiController]
@@ -16,9 +16,25 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
 
     // GET: api/<MoviesController>
     [HttpGet]
-    public async Task<List<Movie>> Get()
+    public async Task<List<GetMovieView>> Get()
     {
-        return await _db.Movies.ToListAsync();
+        var dbModels = await _db.Movies.Include(m => m.Screenings).ThenInclude(s=> s.Screen).ToListAsync();
+
+        return dbModels.Select(m => new GetMovieView()
+        {
+            Id = m.Id,
+            Title = m.Title,
+            Genre = m.Genre,
+            ReleaseDate = m.ReleaseDate,
+            ReviewScore = m.ReviewScore,
+            BoardRating = m.BoardRating,
+            Screenings = m.Screenings.Select(s => new GetMovieView.ScreeningView()
+            {
+                ScreeningId = s.Id,
+                Location = s.Screen!.Name,
+                ScreeningTime = s.ScreeningTime
+            }).ToList()
+        }).ToList();
     }
 
     //// GET api/<MoviesController>/5
