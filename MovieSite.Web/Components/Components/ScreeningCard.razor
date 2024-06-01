@@ -2,31 +2,35 @@
 @using MovieSite.ApiService.Movies
 
 <div>
-    <div class="card w-25" style="margin-bottom:15px">
-    <div class="card-header font-weight-bold">@Screening.MovieTitle</div>
-    <div class="card-body">
-        <div>
-        Showing at: @Screening.StartTime.ToString("HH:mm")
-        </div>
-        <div>
-            @Screening.Location
-        </div>
-        <div>
-            @(Screening.PercentageAvailable) % seats available
-        </div>
-        <div>
-            £@Screening.TicketPrice.ToString("c")
-        </div>
-        <div>
-            @Screening.ReviewScore
-        </div>
-        <div>
-            @Screening.BoardRating.ToPrettyString()
+    <div class="card " style="margin-bottom:15px">
+        <div class="card-header font-weight-bold">@Screening.MovieTitle</div>
+        <div class="card-body">
+            <div class="flex-row">
+                <div class="mr-auto p-2">
+                    Showing at: @Screening.StartTime.ToString("HH:mm")
+                </div>
+                <div class="p-2">
+                    @Screening.Location
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="mr-auto p-2">
+                    @(Screening.PercentageAvailable) % seats available
+                </div>
+                <div class="p-2">
+                    @Screening.TicketPrice.ToString("c")
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="mr-auto p-2">
+                    @Screening.ReviewScore
+                </div>
+                <div class="p-2">
+                    @Screening.BoardRating.ToPrettyString()
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
-
 </div>
 
 @code {
@@ -34,4 +38,4 @@
     public required GetMovieScreeningView Screening { get; set; }
 
 
-}
+    }
