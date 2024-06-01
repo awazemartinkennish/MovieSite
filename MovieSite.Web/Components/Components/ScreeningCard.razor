@@ -1,0 +1,29 @@
+﻿@using MovieSite.ApiService.MovieScreenings
+<div>
+    <div class="card w-25" style="margin-bottom:15px">
+    <div class="card-header font-weight-bold">@Screening.MovieTitle</div>
+    <div class="card-body">
+        <div>
+        Showing at: @Screening.StartTime.ToString("HH:mm")
+        </div>
+        <div>
+            @Screening.Location
+        </div>
+        <div>
+            @(Screening.PercentageAvailable) % available
+        </div>
+        <div>
+            @Screening.ReviewScore 
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public required GetMovieScreeningView Screening { get; set; }
+
+
+}

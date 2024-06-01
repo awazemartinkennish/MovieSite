@@ -1,7 +1,36 @@
 ﻿@page "/"
+@using MovieSite.ApiService.MovieScreenings
+@using MovieSite.Web.Components.Components
+
+
+@inject MovieApiClient MovieApi
+
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome to the Totally Legit Movie Theatre</h1>
 
-Welcome to your new app.
+<p>Today we're showing:</p>
+
+@if (screenings == null)
+{
+    <p><em>Loading...</em></p>
+} else
+{
+    @foreach(var screening in screenings)
+    {
+        <ScreeningCard Screening="@screening" />
+    }
+}
+
+
+
+
+@code {
+    private List<GetMovieScreeningView>? screenings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        screenings = await MovieApi.GetMovieScreenings(DateOnly.FromDateTime(DateTime.UtcNow));
+    }
+}

@@ -44,6 +44,7 @@ public class MovieScreeningController(MovieDbContext db, ILogger<MovieScreeningC
                 ReviewScore = ms.Movie!.ReviewScore,
                 BoardRating = ms.Movie!.BoardRating
             })
+            .OrderBy(ms => ms.StartTime)
             .ToListAsync();
         _logger.LogDebug("Fetched {Count} movies", results.Count);
 

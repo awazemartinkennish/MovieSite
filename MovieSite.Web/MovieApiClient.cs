@@ -46,11 +46,13 @@ public class MovieApiClient(HttpClient httpClient)
         return screens ?? [];
     }
 
-    public async Task<List<GetMovieScreeningView>> GetMovieScreenings(int maxItems = 10, CancellationToken cancellationToken = default)
+    public async Task<List<GetMovieScreeningView>> GetMovieScreenings(DateOnly? dateToShow = null, int maxItems = 10, CancellationToken cancellationToken = default)
     {
         List<GetMovieScreeningView>? screenings = null;
+
+        string url = dateToShow.HasValue ? $"/moviescreening?showingDate={dateToShow.Value:yyyy-MM-dd}" : "/moviescreening";
         
-        await foreach (var screening in httpClient.GetFromJsonAsAsyncEnumerable<GetMovieScreeningView>("/moviescreening", cancellationToken))
+        await foreach (var screening in httpClient.GetFromJsonAsAsyncEnumerable<GetMovieScreeningView>(url, cancellationToken))
         {
             if (screenings?.Count >= maxItems)
             {
