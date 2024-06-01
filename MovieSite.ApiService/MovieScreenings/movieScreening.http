@@ -2,3 +2,7 @@
 
 
 GET https://localhost:{{localhostPort}}/moviescreening
+
+###
+
+GET https://localhost:{{localhostPort}}/moviescreening?showingDate=2024-06-01

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using MovieSite.Database;
 using MovieSite.Database.Models;
@@ -17,13 +18,21 @@ public class MovieScreeningController(MovieDbContext db, ILogger<MovieScreeningC
 
     // GET: api/<MoviesController>
     [HttpGet]
-    public async Task<List<GetMovieScreeningView>> Get()
+    public async Task<List<GetMovieScreeningView>> Get(DateOnly? showingDate)
     {
         _logger.LogDebug("Fetching screenings from database");
-        List<GetMovieScreeningView> results = await _db.MovieScreenings
+        IQueryable<MovieScreening> interim = _db.MovieScreenings
             .Include(ms => ms.Movie!)
             .Include(ms => ms.Screen!)
-            .Include(ms => ms.Tickets)
+            .Include(ms => ms.Tickets);
+
+        if (showingDate.HasValue)
+        {
+            _logger.LogDebug("Filtering for the date {Date}", showingDate);
+            interim = interim.Where(ms => ms.ScreeningTime.Date == showingDate.Value.ToDateTime(TimeOnly.MinValue));
+        }
+
+        var results = await interim
             .Select(ms => new GetMovieScreeningView() { 
                 Id = ms.Id,
                 MovieTitle = ms.Movie!.Title,
