@@ -1,4 +1,6 @@
 ﻿@using MovieSite.ApiService.MovieScreenings
+@using MovieSite.ApiService.Movies
+
 <div>
     <div class="card w-25" style="margin-bottom:15px">
     <div class="card-header font-weight-bold">@Screening.MovieTitle</div>
@@ -10,10 +12,16 @@
             @Screening.Location
         </div>
         <div>
-            @(Screening.PercentageAvailable) % available
+            @(Screening.PercentageAvailable) % seats available
         </div>
         <div>
-            @Screening.ReviewScore 
+            £@Screening.TicketPrice.ToString("c")
+        </div>
+        <div>
+            @Screening.ReviewScore
+        </div>
+        <div>
+            @Screening.BoardRating.ToPrettyString()
         </div>
     </div>
 </div>

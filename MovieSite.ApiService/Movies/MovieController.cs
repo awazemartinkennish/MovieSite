@@ -29,7 +29,7 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
                                                   Genre = m.Genre,
                                                   ReleaseDate = m.ReleaseDate,
                                                   ReviewScore = m.ReviewScore,
-                                                  BoardRatingInternal = m.BoardRating,
+                                                  BoardRating = m.BoardRating,
                                                   Screenings = m.Screenings!.Select(s => new GetMovieView.ScreeningView()
                                                   {
                                                       ScreeningId = s.Id,
@@ -56,7 +56,7 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
                                              Genre = m.Genre,
                                              ReleaseDate = m.ReleaseDate,
                                              ReviewScore = m.ReviewScore,
-                                             BoardRatingInternal = m.BoardRating,
+                                             BoardRating = m.BoardRating,
                                              Screenings = m.Screenings!.Select(s => new GetMovieView.ScreeningView()
                                              {
                                                  ScreeningId = s.Id,
@@ -90,16 +90,7 @@ public class MovieController(MovieDbContext db, ILogger<MovieController> logger)
             Genre = input.Genre,
             ReleaseDate = input.ReleaseDate,
             ReviewScore = input.ReviewScore,
-            BoardRating = input.BoardRating switch
-            {
-                "UA" => Movie.Rating.UA,
-                "U" => Movie.Rating.U,
-                "PG" => Movie.Rating.PG,
-                "12A" => Movie.Rating.TwelveA,
-                "15" => Movie.Rating.Fifteen,
-                "18" => Movie.Rating.Eighteen,
-                _ => throw new ArgumentException("Invalid rating")
-            }
+            BoardRating = input.BoardRating.ToRating()
         };
 
         _logger.LogDebug("Adding movie {@Movie}", movie);

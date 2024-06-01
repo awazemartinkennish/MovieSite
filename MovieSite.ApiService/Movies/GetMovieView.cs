@@ -9,17 +9,7 @@ namespace MovieSite.ApiService.Movies
         public required string Genre { get; init; }
         public DateOnly ReleaseDate { get; init; }
         public double ReviewScore { get; init; }
-        public Movie.Rating BoardRatingInternal { private get; init; }
-        public string BoardRating => BoardRatingInternal switch
-        {
-            Movie.Rating.UA => "UA",
-            Movie.Rating.U => "U",
-            Movie.Rating.PG => "PG",
-            Movie.Rating.TwelveA => "12A",
-            Movie.Rating.Fifteen => "15",
-            Movie.Rating.Eighteen => "18",
-            _ => ""
-        };
+        public Movie.Rating BoardRating { get; init; }
 
         public required List<ScreeningView> Screenings { get; init; }
 
